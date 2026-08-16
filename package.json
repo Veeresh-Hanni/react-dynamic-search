@@ -1,6 +1,6 @@
 {
   "name": "react-dynamic-search",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A debounced, filterable, cache-aware search hook for React.",
   "license": "MIT",
   "type": "module",
