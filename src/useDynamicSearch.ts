@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import type { QueryKey } from '@tanstack/react-query';
 import { useDebounce } from './useDebounce';
 
 export type SearchFilters = Record<string, unknown>;
@@ -13,6 +14,8 @@ export interface UseDynamicSearchConfig<TResult, TFilters extends SearchFilters 
   minQueryLength?: number;
   /** Starting filter values. Default {}. */
   initialFilters?: TFilters;
+  /** Prefix for the React Query cache key. Default ['dynamicSearch']. */
+  queryKey?: QueryKey;
 }
 
 export interface UseDynamicSearchResult<TResult, TFilters extends SearchFilters = SearchFilters> {
@@ -39,6 +42,7 @@ export function useDynamicSearch<TResult, TFilters extends SearchFilters = Searc
   debounceTime = 500,
   minQueryLength = 2,
   initialFilters = {} as TFilters,
+  queryKey = ['dynamicSearch'],
 }: UseDynamicSearchConfig<TResult, TFilters>): UseDynamicSearchResult<TResult, TFilters> {
   if (typeof onSearch !== 'function') {
     throw new Error('useDynamicSearch: onSearch must be a function');
@@ -50,7 +54,7 @@ export function useDynamicSearch<TResult, TFilters extends SearchFilters = Searc
   const debouncedQuery = useDebounce(query, debounceTime);
 
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ['dynamicSearch', debouncedQuery, filters],
+    queryKey: [...queryKey, debouncedQuery, filters],
     queryFn: () => onSearch(debouncedQuery, filters),
     enabled: debouncedQuery.length >= minQueryLength,
   });

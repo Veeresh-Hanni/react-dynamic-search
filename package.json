@@ -1,6 +1,6 @@
 {
   "name": "react-dynamic-search",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A debounced, filterable, cache-aware search hook for React.",
   "license": "MIT",
   "type": "module",
@@ -54,8 +54,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/veeresh-hanni/react-dynamic-search.git"
-  },
-  "dependencies": {
-    "react-dynamic-search": "^0.1.0"
   }
 }

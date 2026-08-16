@@ -23,6 +23,7 @@ export default function ProductSearch() {
       debounceTime: 400,
       minQueryLength: 2,
       initialFilters: { category: '' },
+      queryKey: ['productSearch'],
     });
 
   return (

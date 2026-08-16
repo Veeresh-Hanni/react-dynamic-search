@@ -41,6 +41,7 @@ function ProductSearch() {
       debounceTime: 400,
       minQueryLength: 2,
       initialFilters: { category: '' },
+      queryKey: ['productSearch'],
     });
 
   return (
@@ -65,6 +66,7 @@ Works the same in plain JavaScript/JSX or TypeScript/TSX — see [`examples/`](.
 | `debounceTime` | `number` | `500` | Milliseconds to wait after typing stops before searching. |
 | `minQueryLength` | `number` | `2` | Minimum query length before a search fires. |
 | `initialFilters` | `object` | `{}` | Starting filter values. |
+| `queryKey` | `QueryKey` | `['dynamicSearch']` | React Query cache key prefix. Use a unique key such as `['productSearch']` or `['userSearch']` when multiple search hooks can coexist. |
 
 **Returns**
 
@@ -82,7 +84,7 @@ Works the same in plain JavaScript/JSX or TypeScript/TSX — see [`examples/`](.
 ## Design notes
 
 - **Debounce is hand-rolled internally** — a small, well-understood mechanism, not worth pulling in a separate dependency for.
-- **Caching, request dedup, and stale-request handling are delegated to React Query** rather than reimplemented — its `queryKey` includes both the debounced query and filters, so filter changes correctly bust the cache instead of serving stale results.
+- **Caching, request dedup, and stale-request handling are delegated to React Query** rather than reimplemented — its `queryKey` includes a configurable prefix plus the debounced query and filters, so separate search components can avoid cache collisions while filter changes still bust the cache instead of serving stale results.
 - **No pagination by default** — kept out until there's an actual need (YAGNI); add it at the consumer level via `onSearch` if your API paginates.
 
 ## Development
